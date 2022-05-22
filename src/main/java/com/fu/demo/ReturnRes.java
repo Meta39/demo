@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fu.demo.aop.IgnoreResAnnotate;
 import com.fu.demo.entity.Err;
 import com.fu.demo.entity.Res;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.MediaType;
@@ -30,14 +31,7 @@ public class ReturnRes implements ResponseBodyAdvice<Object> {
 
     @Override
     public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
-        if (o instanceof LinkedHashMap) {//粗暴解决404问题
-            LinkedHashMap map = (LinkedHashMap) o;//强转
-            if (map.get("status") != null) {
-                int status = (int) map.get("status");
-//                if (404 == status) return Res.err("404找不到页面");
-                if (404 == status) throw new Err(404,"404找不到页面");
-            }
-        } else if (o instanceof String) {//String要特殊处理
+         if (o instanceof String) {//String要特殊处理
             try {
                 return new ObjectMapper().writeValueAsString(new Res(o));
             } catch (JsonProcessingException e) {
@@ -45,7 +39,16 @@ public class ReturnRes implements ResponseBodyAdvice<Object> {
             }
         } else if (o instanceof Res) {//本身是Res直接返回即可
             return o;
-        }
+        }else if (o instanceof LinkedHashMap) {//解决404、500等spring没有捕获的异常问题，只能放到最后的判断条件去判断
+             LinkedHashMap map = (LinkedHashMap) o;//强转
+             if (map.get("status") != null) {
+                 int status = (int) map.get("status");
+                 String error = (String) map.get("error");
+                 String message = (String) map.get("message");
+                 String path = (String) map.get("path");
+                 throw new Err(status, "请求："+path+"，发送错误："+(StringUtils.isNotBlank(error)?error:message));
+             }
+         }
         return new Res(o);
     }
 }
