@@ -75,5 +75,16 @@ public class GlobalExceptionHandler{
         log.error("请求参数异常"+e);
         return Res.err("缺少请求参数："+e.getParameterName());
     }
-
+    
+    /**
+     * 数据库异常
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(MyBatisSystemException.class)
+    public Res MyBatisSystemException(MyBatisSystemException e) {
+        log.error(e.getMessage());
+        return Res.err("数据库异常（有可能是连接不上数据库）："+e.getMessage());
+    }
+    
 }
