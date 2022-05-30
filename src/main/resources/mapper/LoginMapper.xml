@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fu.demo.mapper.LoginMapper">
     <!--    校验用户ID-->
-    <sql id="checkUserIdSql">id, name, salt, public_key, disabled, deleted</sql>
+    <sql id="checkUserIdSql">id, name, password, salt, public_key, private_key, disabled, deleted</sql>
     <select id="checkUserId" resultMap="BaseResultMap">
         select
         <include refid="checkUserIdSql"/>
@@ -11,8 +11,10 @@
     <resultMap type="com.fu.demo.entity.User" id="BaseResultMap">
         <result property="id" column="id" jdbcType="BIGINT"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="salt" column="salt" jdbcType="VARCHAR"/>
         <result property="publicKey" column="public_key" jdbcType="VARCHAR"/>
+        <result property="privateKey" column="private_key" jdbcType="VARCHAR"/>
         <result property="disabled" column="disabled" jdbcType="VARCHAR"/>
         <result property="deleted" column="deleted" jdbcType="VARCHAR"/>
     </resultMap>
