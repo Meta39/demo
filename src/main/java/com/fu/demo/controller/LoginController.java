@@ -55,6 +55,8 @@ public class LoginController {
         if (user == null) {
             throw new Err("用户不存在");
         } else {
+            user.setPassword(null);
+            user.setPrivateKey(null);
             return user;
         }
     }
