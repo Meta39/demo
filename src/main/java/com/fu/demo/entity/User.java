@@ -14,11 +14,9 @@ import lombok.NoArgsConstructor;
 public class User implements Serializable {
     private Long id;//用户ID（唯一）    
     private String name;//用户名（唯一）
-    @JsonIgnore
     private String password;//UUID密码
     private String salt;//UUID盐（前端校验ID或账号成功时返回给前端）    
     private String publicKey;//公钥
-    @JsonIgnore
     private String privateKey;//私钥    
     private String phone;//手机号    
     private String eMail;//邮箱地址    
