@@ -10,19 +10,19 @@ spring:
   jackson:
     date-format: yyyy-MM-dd hh:mm:ss
     time-zone: GMT+8
-    default-property-inclusion: non_null
+#    default-property-inclusion: non_null
   redis:
     timeout: 15000
     #单机
-#    host: localhost
-#    port: 6379
-#    password:
+    host: localhost
+    port: 6379
+    password:
     #cluster集群配置（首先要在linux搭建好主从复制（三主三从）、哨兵模式监听master、cluster集群）
-    cluster:
+#    cluster:
       #重定向的最大数量，比如第一台挂了，连第二台，第二台挂了连第三台
-      max-redirects: 3
+#      max-redirects: 3
       #redis节点：ip+port
-      nodes: 192.168.10.111:6379,192.168.10.111:6380,192.168.10.111:6381,192.168.10.111:6382,192.168.10.111:6383,192.168.10.111:6384
+#      nodes: 192.168.10.111:6379,192.168.10.111:6380,192.168.10.111:6381,192.168.10.111:6382,192.168.10.111:6383,192.168.10.111:6384
   #数据库
   datasource:
     username: root
