@@ -2,6 +2,7 @@ package com.fu.demo;
 
 import com.fu.demo.entity.Err;
 import com.fu.demo.entity.Res;
+import org.mybatis.spring.MyBatisSystemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
