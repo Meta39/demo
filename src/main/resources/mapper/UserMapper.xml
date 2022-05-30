@@ -19,7 +19,7 @@
         <result property="lastLoginTime" column="last_login_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <sql id="Base_Column_List">id, `name`, `password`, salt, public_key, private_key, phone, e_mail, disabled, deleted, creator, remark, create_time, last_login_time</sql>
+    <sql id="Base_Column_List">id, `name`, salt, public_key, phone, e_mail, disabled, deleted, creator, remark, create_time, last_login_time</sql>
 
     <!-- 根据ID查询 -->
     <select id="select" resultMap="BaseResultMap">
