@@ -15,8 +15,24 @@ public class FastDFSController {
     @Resource
     private FastDFSUtils fastDFSUtils;
 
-    @PostMapping("upload")
-    public String upload(@RequestParam(name = "file") MultipartFile file) throws IOException {
+    /**
+     * fastdfs文件上传
+     * @param file 文件
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("fileUpload")
+    public String upload(@RequestParam(name = "file") MultipartFile file){
         return fastDFSUtils.uploadFile(file);
+    }
+
+    /**
+     * 文件删除
+     * @param filePath fastdfs文件相对路径
+     * @return
+     */
+    @PostMapping("fileDelete")
+    public Boolean download(@RequestParam String filePath){
+        return fastDFSUtils.deleteFile(filePath);
     }
 }
