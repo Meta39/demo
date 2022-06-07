@@ -40,7 +40,7 @@ public class TokenFilter implements Filter {
 
         String token = request.getHeader("token");//请求头的token
         String requestURI = request.getRequestURI();//请求地址
-        System.out.println(requestURI);
+//        System.out.println(requestURI);
         boolean pass = false;
         for (String uri : passPath.split(",")) {
             //请求地址是否是白名单
