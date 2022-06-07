@@ -46,7 +46,7 @@ public class ReturnRes implements ResponseBodyAdvice<Object> {
                  String error = (String) map.get("error");
                  String message = (String) map.get("message");
                  String path = (String) map.get("path");
-                 throw new Err(status, "请求："+path+"，发送错误："+(StringUtils.isNotBlank(error)?error:message));
+                 throw new Err(status, "请求："+path+"，发生错误："+(StringUtils.isNotBlank(error)?error:message));
              }
          }
         return new Res(o);
