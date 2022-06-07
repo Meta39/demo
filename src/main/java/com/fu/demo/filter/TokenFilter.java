@@ -1,5 +1,6 @@
 package com.fu.demo.filter;
 
+import com.fu.demo.config.NotCheckConfig;
 import com.fu.demo.entity.Code;
 import com.fu.demo.entity.Err;
 import org.apache.commons.lang.StringUtils;
@@ -25,8 +26,11 @@ import java.util.concurrent.TimeUnit;
 public class TokenFilter implements Filter {
     @Value("${token-overtime}")
     private int tokenOvertime;
-    @Value("${pass-path}")
-    private String passPath;
+//    @Value("${not-check}")
+//    private String notCheck;
+    //yml list形式过滤
+    @Resource
+    private NotCheckConfig notCheckConfig;
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
     @Resource
@@ -42,7 +46,8 @@ public class TokenFilter implements Filter {
         String requestURI = request.getRequestURI();//请求地址
 //        System.out.println(requestURI);
         boolean pass = false;
-        for (String uri : passPath.split(",")) {
+//        for (String uri : notCheck.split(",")) {//@Value配置
+        for (String uri : notCheckConfig.getNotCheck()) {//yml list配置
             //请求地址是否是白名单
             if (requestURI.contains(uri)) {
                 pass = true;
