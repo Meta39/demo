@@ -26,8 +26,6 @@ import java.util.concurrent.TimeUnit;
 public class TokenFilter implements Filter {
     @Value("${token-overtime}")
     private int tokenOvertime;
-//    @Value("${not-check}")
-//    private String notCheck;
     //yml list形式过滤
     @Resource
     private NotCheckConfig notCheckConfig;
@@ -44,16 +42,7 @@ public class TokenFilter implements Filter {
 
         String token = request.getHeader("token");//请求头的token
         String requestURI = request.getRequestURI();//请求地址
-//        System.out.println(requestURI);
-        boolean pass = false;
-//        for (String uri : notCheck.split(",")) {//@Value配置
-        for (String uri : notCheckConfig.getNotCheck()) {//yml list配置
-            //请求地址是否是白名单
-            if (requestURI.contains(uri)) {
-                pass = true;
-                break;
-            }
-        }
+        boolean pass = notCheckConfig.getNotCheck().stream().anyMatch(x -> ("/"+x).equals(requestURI));//是否包含白名单uri
         if (pass) {
             filterChain.doFilter(request, response);//通过认证
         } else if (StringUtils.isNotBlank(token) && redisTemplate.hasKey(token)) {//token认证
