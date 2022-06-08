@@ -1,9 +1,6 @@
 #token过期时间，单位秒
 token-overtime: 1800
 #请求uri白名单
-#@Value方式
-#not-check: "hello,getVCode,checkUserId,front,login,fileUpload,fileDelete"
-#list方式
 pass-uri:
   not-check:
     - hello
@@ -14,6 +11,7 @@ pass-uri:
     - fileUpload
     - fileDelete
     - roundRobin
+    - user/select
 
 server:
   port: 81
@@ -37,11 +35,67 @@ spring:
 #      nodes: 192.168.10.111:6379,192.168.10.111:6380,192.168.10.111:6381,192.168.10.111:6382,192.168.10.111:6383,192.168.10.111:6384
   #数据库
   datasource:
-    username: root
-    password: 123456
+    username: jettwork
+    password: jettwork
     #url中database为对应的数据库名称
-    url: jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
+#    url: jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
+    #druid连接池
+    type: com.alibaba.druid.pool.DruidDataSource
+    #双机热备数据库
+    mysql1:
+      url: jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
+      # 初始连接数
+      initial-size: 10
+      # 最小连接池数量
+      min-idle: 10
+      # 最大连接池数量
+      max-active: 100
+      # 配置获取连接等待超时的时间
+      max-wait: 6000
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 30000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1
+      #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      keepAlive: true
+
+    mysql2:
+      url: jdbc:mysql://192.168.18.253:3306/demo?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
+      # 初始连接数
+      initial-size: 10
+      # 最小连接池数量
+      min-idle: 10
+      # 最大连接池数量
+      max-active: 100
+      # 配置获取连接等待超时的时间
+      max-wait: 6000
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 30000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1
+      #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      keepAlive: true
+    #监控信息配置
+    monitor:
+      username: root
+      password: root
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
