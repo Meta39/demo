@@ -52,7 +52,7 @@ spring:
       # 最大连接池数量
       max-active: 100
       # 配置获取连接等待超时的时间
-      max-wait: 6000
+      max-wait: 1
       # 打开PSCache，并且指定每个连接上PSCache的大小
       pool-prepared-statements: true
       max-pool-prepared-statement-per-connection-size: 20
@@ -77,7 +77,7 @@ spring:
       # 最大连接池数量
       max-active: 100
       # 配置获取连接等待超时的时间
-      max-wait: 6000
+      max-wait: 1
       # 打开PSCache，并且指定每个连接上PSCache的大小
       pool-prepared-statements: true
       max-pool-prepared-statement-per-connection-size: 20
