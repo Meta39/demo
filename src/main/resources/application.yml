@@ -13,6 +13,7 @@ pass-uri:
     - login
     - fileUpload
     - fileDelete
+    - roundRobin
 
 server:
   port: 81
