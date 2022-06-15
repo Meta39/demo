@@ -2,6 +2,7 @@ package com.fu.demo.entity;
 
 import java.util.Date;
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class Menu implements Serializable {
     private String component;//组件名，用于解析路由对应的组件    
     private String remark;//备注    
     private Long creator;//创建人ID    
-    private Date createTime;//创建时间    
+    private Date createTime;//创建时间
+    private List<Menu> childList;//子列表
 }
 

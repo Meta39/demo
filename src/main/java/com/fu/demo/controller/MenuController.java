@@ -80,5 +80,13 @@ public class MenuController {
         return menuService.delete(id);
     }
 
+    /**
+     * 查询全部菜单树状结构
+     */
+    @GetMapping("menuTree")
+    public List<Menu> menuTree() {
+        return menuService.menuTree();
+    }
+
 }
 
