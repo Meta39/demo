@@ -4,7 +4,6 @@ import com.fu.demo.aop.IgnoreResAnnotate;
 import com.fu.demo.entity.*;
 import com.fu.demo.mapper.LoginMapper;
 import com.fu.demo.util.RSAUtil;
-import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -19,7 +18,6 @@ import java.security.MessageDigest;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-@Log4j2
 @RestController
 public class LoginController {
     @Value("${token-overtime}")
