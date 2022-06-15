@@ -1,5 +1,6 @@
 package com.fu.demo.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageSerializable;
 import com.fu.demo.entity.Menu;
@@ -8,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 菜单（运维谨慎用超级用户去新增、修改、删除）
@@ -47,7 +50,7 @@ public class MenuController {
     @GetMapping("selectPage")
     public PageSerializable<Menu> selectPage(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "10") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        return PageSerializable.of(menuService.selectAll());
+        return PageSerializable.of(new ArrayList<>(menuService.selectAll()));
     }
 
     /**
@@ -81,12 +84,19 @@ public class MenuController {
     }
 
     /**
-     * 查询全部菜单树状结构
+     * 查询全部菜单树状结构（推荐）
      */
     @GetMapping("menuTree")
     public List<Menu> menuTree() {
         return menuService.menuTree();
     }
 
+    /**
+     * 递归查询全部菜单树状结构（不推荐）
+     */
+    @GetMapping("menuTree2")
+    public Set<Menu> menuTree2(){
+        return menuService.menuTree2();
+    }
 }
 
