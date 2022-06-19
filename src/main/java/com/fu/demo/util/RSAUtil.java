@@ -1,6 +1,7 @@
 package com.fu.demo.util;
 
-import lombok.extern.slf4j.Slf4j;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.LoggerContext;
 
 import javax.crypto.Cipher;
 import java.nio.charset.StandardCharsets;
@@ -14,8 +15,8 @@ import java.util.*;
 /**
  * Java RSA 加密工具类
  */
-@Slf4j
 public class RSAUtil {
+    private final static Logger log = new LoggerContext().getLogger(RSAUtil.class);
 
     /**
      * 密钥长度 于原文长度对应 以及越长速度越慢
