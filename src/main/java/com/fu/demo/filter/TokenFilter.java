@@ -1,7 +1,7 @@
 package com.fu.demo.filter;
 
 import com.fu.demo.config.NotCheckConfig;
-import com.fu.demo.entity.Code;
+import com.fu.demo.entity.Status;
 import com.fu.demo.entity.Err;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -50,7 +51,7 @@ public class TokenFilter implements Filter {
             filterChain.doFilter(request, response);//通过认证
         } else {//非法请求拦截，抛出异常
             //抛出异常
-            resolver.resolveException(request, response, null, StringUtils.isBlank(token) ? new Err("请求头token不能为空！") : new Err(Code.NOT_LOGIN.getNum(),Code.NOT_LOGIN.getMsg()));
+            resolver.resolveException(request, response, null, StringUtils.isBlank(token) ? new Err("请求头token不能为空！") : new Err(Status.NOT_LOGIN.getStatus(), Status.NOT_LOGIN.getError()));
         }
     }
 }

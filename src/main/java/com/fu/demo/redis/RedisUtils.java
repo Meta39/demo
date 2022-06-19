@@ -171,7 +171,6 @@ public class RedisUtils {
      * @return 值
      */
     public Object hget(String key, String item) {
-//        System.out.println(redisTemplate.opsForHash().get(key, item));
         return redisTemplate.opsForHash().get(key, item);
     }
 

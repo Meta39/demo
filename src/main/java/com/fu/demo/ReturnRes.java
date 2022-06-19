@@ -1,11 +1,10 @@
 package com.fu.demo;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fu.demo.aop.IgnoreResAnnotate;
 import com.fu.demo.entity.Err;
 import com.fu.demo.entity.Res;
-import org.apache.commons.lang.StringUtils;
+import lombok.SneakyThrows;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.MediaType;
@@ -29,14 +28,11 @@ public class ReturnRes implements ResponseBodyAdvice<Object> {
         return ignoreResAnnotate == null;
     }
 
+    @SneakyThrows
     @Override
     public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
          if (o instanceof String) {//String要特殊处理
-            try {
                 return new ObjectMapper().writeValueAsString(new Res(o));
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
         } else if (o instanceof Res) {//本身是Res直接返回即可
             return o;
         }else if (o instanceof LinkedHashMap) {//解决404、500等spring没有捕获的异常问题，只能放到最后的判断条件去判断
@@ -46,7 +42,7 @@ public class ReturnRes implements ResponseBodyAdvice<Object> {
                  String error = (String) map.get("error");
                  String message = (String) map.get("message");
                  String path = (String) map.get("path");
-                 throw new Err(status, "请求："+path+"，发生错误："+(StringUtils.isNotBlank(error)?error:message));
+                 throw new Err(status, error,message,path);
              }
          }
         return new Res(o);

@@ -4,46 +4,63 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Res<T>{
-    private Integer code;
-    private String msg;
-    private T data;
+public class Res<T> {
+    private int status;//状态码
+    private String error;//错误信息
+    private String message;//信息
+    private T data;//成功返回的数据
 
     /**
      * 成功返回
      * @param data 数据
      */
     public Res(T data) {
-        this.code = Code.SUCCESS.getNum();
-        this.msg = Code.SUCCESS.getMsg();
+        this.status = 200;
+        this.message = "成功";
         this.data = data;
     }
 
     /**
-     * 普通异常，如：0自定义异常等
-     * @param msg
+     * 500异常
+     * @param message 错误信息
      * @return
      */
-    public static Res err(String msg) {
+    public static Res err(String message) {
         Res res = new Res();
-        res.setCode(Code.FAIL.getNum());
-        res.setMsg(msg);
+        res.setStatus(Status.FAIL.getStatus());
+        res.setError(message);
         return res;
     }
 
     /**
-     * 特殊异常，如：-1未登录异常，404找不到页面异常等
-     * @param code 异常码
-     * @param msg 异常信息
+     * Status自定义固定异常
+     * @param status 状态码
+     * @param error 错误信息
      * @return
      */
-    public static Res err(Integer code,String msg) {
+    public static Res err(Integer status,String error) {
         Res res = new Res();
-        res.setCode(code);
-        res.setMsg(msg);
+        res.setStatus(status);
+        res.setError(error);
+        return res;
+    }
+
+    /**
+     * Status自定义固定异常+自定义信息
+     * @param status 状态码
+     * @param error 错误信息
+     * @param message 自定义信息
+     * @return
+     */
+    public static Res err(Integer status,String error,String message) {
+        Res res = new Res();
+        res.setStatus(status);
+        res.setError(error);
+        res.setMessage(message);
         return res;
     }
 }

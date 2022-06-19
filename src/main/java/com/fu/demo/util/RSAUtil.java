@@ -1,8 +1,6 @@
 package com.fu.demo.util;
 
-import com.fu.demo.GlobalExceptionHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.Cipher;
 import java.nio.charset.StandardCharsets;
@@ -16,8 +14,8 @@ import java.util.*;
 /**
  * Java RSA 加密工具类
  */
+@Slf4j
 public class RSAUtil {
-    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
      * 密钥长度 于原文长度对应 以及越长速度越慢
@@ -73,7 +71,7 @@ public class RSAUtil {
             cipher.init(Cipher.ENCRYPT_MODE, pubKey);
             outStr = Base64.getEncoder().encodeToString(cipher.doFinal(str.getBytes(StandardCharsets.UTF_8)));
         }catch (Exception e){
-            log.error("加密异常：",e);
+            log.error("加密异常",e);
         }
         return outStr;
     }
@@ -98,7 +96,7 @@ public class RSAUtil {
             cipher.init(Cipher.DECRYPT_MODE, priKey);
             outStr = new String(cipher.doFinal(inputByte),StandardCharsets.UTF_8);
         }catch (Exception e){
-            log.error("解密异常"+e);
+            log.error("解密异常",e);
         }
         return outStr;
     }
@@ -107,24 +105,25 @@ public class RSAUtil {
         //生成公钥和私钥
         genKeyPair();
         //加密字符串
-        System.out.println("公钥:" + keyMap.get(0));
-        System.out.println("私钥:" + keyMap.get(1));
-        System.out.println("生成密钥消耗时间:" + (System.currentTimeMillis() - temp) / 1000.0 + "秒");
+        log.debug("公钥:" + keyMap.get(0));
+        log.debug("公钥:" + keyMap.get(0));
+        log.debug("私钥:" + keyMap.get(1));
+        log.debug("生成密钥消耗时间:" + (System.currentTimeMillis() - temp) / 1000.0 + "秒");
         String password = "123456";
-        System.out.println("原始密码："+password);
+        log.debug("原始密码："+password);
         String salt = UUID.randomUUID().toString().replaceAll("-", "");
-        System.out.println("UUID盐："+salt);
+        log.debug("UUID盐："+salt);
         String message = Base64.getEncoder().encodeToString(MessageDigest.getInstance("MD5").digest((password+salt).getBytes(StandardCharsets.UTF_8)));//MD5加密密码
 //        String message = "x";
-        System.out.println("MD5加密（原始密码+salt）的密文:" + message);
+        log.debug("MD5加密（原始密码+salt）的密文:" + message);
         temp = System.currentTimeMillis();
         String messageEn = encrypt(message, keyMap.get(0));
-        System.out.println("RSA公钥加密后的密文:" + messageEn);
-        System.out.println("加密消耗时间:" + (System.currentTimeMillis() - temp) / 1000.0 + "秒");
+        log.debug("RSA公钥加密后的密文:" + messageEn);
+        log.debug("加密消耗时间:" + (System.currentTimeMillis() - temp) / 1000.0 + "秒");
         temp = System.currentTimeMillis();
         String messageDe = decrypt(messageEn, keyMap.get(1));
-        System.out.println("RSA私钥解密成MD5加密（原始密码+salt）的密文:" + messageDe);
-        System.out.println("解密消耗时间:" + (System.currentTimeMillis() - temp) / 1000.0 + "秒");
+        log.debug("RSA私钥解密成MD5加密（原始密码+salt）的密文:" + messageDe);
+        log.debug("解密消耗时间:" + (System.currentTimeMillis() - temp) / 1000.0 + "秒");
     }
 }
 

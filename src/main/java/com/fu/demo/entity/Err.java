@@ -8,21 +8,39 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Err extends RuntimeException{
-    private int code;
-    private String msg;
+    private int status = 5000;//默认错误状态码为500
+    private String error;//固定错误信息
+    private String message;//自定义错误信息
+    private String path;//路径
 
     /**
-     * 默认状态码为0，普通异常
-     * @param message 错误信息
+     * 默认普通异常
+     * @param error 错误信息
      */
-    public Err(String message){
-        this.msg = message;
+    public Err(String error){
+        this.error = error;
     }
 
     /**
-     * 自定义异常和状态码
-     * @param code 自定义的状态码，如：登录为-1等
-     * @param message 错误信息
+     * Status配置的固定错误信息
+     * @param status 状态码
+     * @param error 固定错误信息
      */
-//    public Err(Integer code,String message){}
+    public Err(int status,String error){
+        this.status = status;
+        this.error = error;
+    }
+
+    /**
+     * Status配置的固定错误信息+自定义错误信息
+     * @param status 状态码
+     * @param error 固定错误信息
+     * @param message 自定义错误信息
+     */
+    public Err(int status,String error,String message){
+        this.status = status;
+        this.error = error;
+        this.message =message;
+    }
+
 }
