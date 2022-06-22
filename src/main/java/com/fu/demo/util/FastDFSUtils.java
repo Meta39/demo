@@ -1,10 +1,10 @@
 package com.fu.demo.util;
 
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.LoggerContext;
 import com.fu.demo.entity.Err;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -18,7 +18,7 @@ import javax.annotation.Resource;
 @Component
 public class FastDFSUtils {
 
-    private static final Logger log = LoggerFactory.getLogger(FastDFSUtils.class);
+    private static final Logger log = new LoggerContext().getLogger(FastDFSUtils.class);
 
     @Resource
     private FastFileStorageClient fastFileStorageClient;
