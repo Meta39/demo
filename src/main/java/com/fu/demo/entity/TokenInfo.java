@@ -17,4 +17,5 @@ public class TokenInfo {
     private List<Dept> depts;//部门组
     private List<Role> roles;//角色组
     private Set<Menu> menus;//菜单树
+    private Set<String> empowers;//权限
 }

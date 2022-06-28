@@ -21,4 +21,7 @@ public interface LoginMapper {
 
     //查询当前登录用户对应的角色的菜单组
     Set<Menu> selectUserMenus(@Param("roles") List<Role> roles);
+
+    //超级管理员查询全部菜单
+    Set<Menu> selectAllMenu();
 }

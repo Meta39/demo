@@ -7,6 +7,7 @@ public enum Status {
     MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION(5003,"缺少请求参数"),
     BIND_EXCEPTION(5004,"参数校验异常"),
     MYBATIS_SYSTEM_EXCEPTION(5005,"数据库异常（有可能是连接不上数据库）"),
+    ILLEGAL_REQUEST(5006,"非法请求！"),
     ;
 
     private int status;

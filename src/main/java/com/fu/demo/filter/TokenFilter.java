@@ -3,6 +3,7 @@ package com.fu.demo.filter;
 import com.fu.demo.config.NotCheckConfig;
 import com.fu.demo.entity.Status;
 import com.fu.demo.entity.Err;
+import com.fu.demo.entity.TokenInfo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +17,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -43,13 +43,21 @@ public class TokenFilter implements Filter {
 
         String token = request.getHeader("token");//请求头的token
         String requestURI = request.getRequestURI();//请求地址
-        boolean pass = notCheckConfig.getNotCheck().stream().anyMatch(x -> ("/"+x).equals(requestURI));//是否包含白名单uri
+        boolean pass = notCheckConfig.getNotCheck().stream().anyMatch(x -> requestURI.equals("/"+x));//是否包含白名单uri
         if (pass) {
             filterChain.doFilter(request, response);//通过认证
         } else if (StringUtils.isNotBlank(token) && redisTemplate.hasKey(token)) {//token认证
-            redisTemplate.expire(token,tokenOvertime,TimeUnit.SECONDS);//刷新token过期时间
-            filterChain.doFilter(request, response);//通过认证
-        } else {//非法请求拦截，抛出异常
+            //授权
+            TokenInfo tokenInfo = (TokenInfo) redisTemplate.opsForValue().get(token);
+            assert tokenInfo != null;
+            boolean empower = tokenInfo.getEmpowers() != null && tokenInfo.getEmpowers().size() > 0 && tokenInfo.getEmpowers().stream().anyMatch((requestURI)::equals);
+            if (empower){//认证并授权则通过
+                redisTemplate.expire(token,tokenOvertime,TimeUnit.SECONDS);//刷新token过期时间
+                filterChain.doFilter(request, response);//通过认证和授权
+            }else {//认证但未授权，抛出异常
+                resolver.resolveException(request, response, null,new Err(Status.ILLEGAL_REQUEST.getStatus(),Status.ILLEGAL_REQUEST.getError()));
+            }
+        } else {//未认证的非法请求拦截，抛出异常
             //抛出异常
             resolver.resolveException(request, response, null, StringUtils.isBlank(token) ? new Err("请求头token不能为空！") : new Err(Status.NOT_LOGIN.getStatus(), Status.NOT_LOGIN.getError()));
         }
