@@ -7,6 +7,7 @@ import com.fu.demo.util.RSAUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +32,16 @@ public class LoginController {
     @IgnoreResAnnotate //不反回Res
     @GetMapping("hello")
     public String hello() {
+        String script = "redis.call('HSET',KEYS[1],KEYS[2],ARGV[1]) redis.call('EXPIRE',KEYS[1],ARGV[1])aadasd";
+        // 实例化脚本对象
+        DefaultRedisScript<Boolean> lua = new DefaultRedisScript<>();
+        // 设置脚本的返回值
+        lua.setResultType(Boolean.class);
+        lua.setScriptText(script);
+        // key的集合
+        List<String> keys = Arrays.asList("key","item");
+        // 执行lua脚本
+        redisTemplate.execute(lua, keys, 120);
         return "hello";
     }
 

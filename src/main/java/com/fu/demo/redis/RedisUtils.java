@@ -1,7 +1,6 @@
 package com.fu.demo.redis;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -13,9 +12,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Component
 public class RedisUtils {
-    private final static Logger log = LoggerFactory.getLogger(RedisUtils.class);
     /**
      * 注入redisTemplate bean
      */

@@ -1,10 +1,9 @@
 package com.fu.demo;
 
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
 import com.fu.demo.entity.Err;
 import com.fu.demo.entity.Res;
 import com.fu.demo.entity.Status;
+import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -13,9 +12,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Objects;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler{
-    private final static Logger log = new LoggerContext().getLogger(GlobalExceptionHandler.class);
 
     /**
      * 自定义异常
@@ -39,7 +38,7 @@ public class GlobalExceptionHandler{
      */
     @ExceptionHandler(value =Exception.class)
     public Res exception(Exception e){
-        log.error("5000异常：",e);
+        log.error("5000异常",e);
         return Res.err(Status.FAIL.getStatus(), Status.FAIL.getError(),e.getMessage());
     }
 
@@ -66,7 +65,7 @@ public class GlobalExceptionHandler{
      */
     @ExceptionHandler(MyBatisSystemException.class)
     public Res MyBatisSystemException(MyBatisSystemException e) {
-        log.error("数据库异常（有可能是连接不上数据库）{}",e.getMessage());
+        log.error("数据库异常（有可能是连接不上数据库）",e);
         return Res.err(Status.MYBATIS_SYSTEM_EXCEPTION.getStatus(), Status.MYBATIS_SYSTEM_EXCEPTION.getError(),e.getMessage());
     }
 
