@@ -36,15 +36,19 @@ public class DataSourceAspect {
     /**
      * 轮询mysql数据库
      */
-    public void robin(){
-        String INDEX = "index";
-        if (!redisTemplate.hasKey(INDEX)) redisTemplate.opsForValue().set(INDEX, 0);//如果key不存在就创建key,并设置下标初始值为0
-        int index = redisTemplate.opsForValue().get(INDEX);//有下标则直接获取
+    public void robin() {
+        String key = "index";
+        if (!redisTemplate.hasKey(key)) {//如果key不存在就创建key,并设置下标初始值为0
+            redisTemplate.opsForValue().set(key, 0);
+        }
+        int index = redisTemplate.opsForValue().get(key);//有下标则直接获取
         List<String> list = new ArrayList<>();
         list.add("mysql1");
         list.add("mysql2");
-        if (index >= list.size()) index = 0;//超过list集合的值就重新赋值（轮询）
+        if (index >= list.size()) {//超过list集合的值就重新赋值（轮询）
+            index = 0;
+        }
         DynamicDataSourceContextHolder.setDateSourceType(list.get(index));
-        redisTemplate.opsForValue().set(INDEX, ++index);//利用redis单线程的特性存放全局index下标
+        redisTemplate.opsForValue().set(key, ++index);//利用redis单线程的特性存放全局index下标
     }
 }

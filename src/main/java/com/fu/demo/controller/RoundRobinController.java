@@ -18,15 +18,20 @@ public class RoundRobinController {
 
     /**
      * 轮询获取yml配置的list
+     *
      * @return
      */
     @GetMapping("roundRobin")
     public String roundRobin() {
         String INDEX = "index";
-        if (!redisTemplate.hasKey(INDEX)) redisTemplate.opsForValue().set(INDEX, 0);//如果key不存在就创建key,并设置下标初始值为0
+        if (!redisTemplate.hasKey(INDEX)) {//如果key不存在就创建key,并设置下标初始值为0
+            redisTemplate.opsForValue().set(INDEX, 0);
+        }
         int index = redisTemplate.opsForValue().get(INDEX);//有下标则直接获取
         List<String> list = notCheckConfig.getNotCheck();//获取yml配置的集合
-        if (index >= list.size()) index = 0;//超过list集合的值就重新赋值（轮询）
+        if (index >= list.size()) {//超过list集合的值就重新赋值（轮询）
+            index = 0;
+        }
         String ip = list.get(index);//获取集合中第index个元素的值，每次调用获取list中的第index条数据
         redisTemplate.opsForValue().set(INDEX, ++index);//利用redis单线程的特性存放全局index下标
         return ip;

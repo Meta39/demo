@@ -32,16 +32,6 @@ public class LoginController {
     @IgnoreResAnnotate //不反回Res
     @GetMapping("hello")
     public String hello() {
-        String script = "redis.call('HSET',KEYS[1],KEYS[2],ARGV[1]) redis.call('EXPIRE',KEYS[1],ARGV[1])aadasd";
-        // 实例化脚本对象
-        DefaultRedisScript<Boolean> lua = new DefaultRedisScript<>();
-        // 设置脚本的返回值
-        lua.setResultType(Boolean.class);
-        lua.setScriptText(script);
-        // key的集合
-        List<String> keys = Arrays.asList("key","item");
-        // 执行lua脚本
-        redisTemplate.execute(lua, keys, 120);
         return "hello";
     }
 
@@ -60,7 +50,9 @@ public class LoginController {
      */
     @GetMapping("checkUserId")
     public User checkUserIdOrUserName(@RequestParam Long userId) {
-        if (userId == null) throw new Err("用户ID不能为空");
+        if (userId == null) {
+            throw new Err("用户ID不能为空");
+        }
         User user = loginMapper.checkUserId(userId);
         if (user == null) {
             throw new Err("用户不存在");
