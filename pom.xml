@@ -89,7 +89,7 @@
             <artifactId>javase</artifactId>
             <version>3.0.0</version>
         </dependency>
-        <!--        easyExcel导入导出Excel-->
+        <!--easyExcel导入导出Excel-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>easyexcel</artifactId>
@@ -99,19 +99,24 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
-        <!--        fastDFS-->
+        <!--minio-->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>7.1.0</version>
+        </dependency>
         <dependency>
             <groupId>com.github.tobato</groupId>
             <artifactId>fastdfs-client</artifactId>
             <version>1.27.2</version>
         </dependency>
-        <!--        配置注释处理器 @ConfigurationProperties yml使用list@Value获取会报错-->
+        <!--配置注释处理器 @ConfigurationProperties yml使用list@Value获取会报错-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-        <!--        druid连接池-->
+        <!--druid连接池-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>

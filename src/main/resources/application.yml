@@ -8,6 +8,8 @@ pass-uri:
     - checkUserId
     - front
     - login
+    - minio/upload
+    - minio/delete
     - fileUpload
     - fileDelete
     - roundRobin
@@ -106,6 +108,11 @@ logging:
   level:
     #生产环境可以改为info
     com.fu.demo.mapper: debug
+
+minio:
+  endpoint: http://192.168.18.253:9000
+  accessKey: minioadmin
+  secretKey: minioadmin
 
 fdfs:
   so-timeout: 1501
