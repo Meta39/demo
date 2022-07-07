@@ -105,6 +105,7 @@
             <artifactId>minio</artifactId>
             <version>7.1.0</version>
         </dependency>
+        <!--fastdfs-->
         <dependency>
             <groupId>com.github.tobato</groupId>
             <artifactId>fastdfs-client</artifactId>
