@@ -33,7 +33,7 @@ public class MinioUtil {
         String bucketName = localDate.format(yyyy);//以年为存储桶
         String path = localDate.format(MM) + "/" + localDate.format(dd) + "/";//在年存储桶里面创建月日文件夹
         boolean bucketExists = minioConfig.getMinioClient().bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
-        if (!bucketExists) {//判断存储桶yyyy-MM是否存在，不存在则创建
+        if (!bucketExists) {//判断存储桶yyyy是否存在，不存在则创建
             minioConfig.getMinioClient().makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
         }
         //更换文件名称
