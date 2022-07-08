@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 
 @RestController
 public class FastDFSController {
@@ -19,7 +20,7 @@ public class FastDFSController {
      * @param file 文件
      */
     @PostMapping("fileUpload")
-    public String upload(@RequestParam(name = "file") MultipartFile file){
+    public String upload(@RequestParam(name = "file") MultipartFile file) throws IOException {
         return fastDFSUtils.uploadFile(file);
     }
 
