@@ -35,6 +35,9 @@ public class MinioUtil {
         boolean bucketExists = minioConfig.getMinioClient().bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
         if (!bucketExists) {//判断存储桶yyyy是否存在，不存在则创建
             minioConfig.getMinioClient().makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
+            //设置读写权限
+            String read_write = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucket\",\"s3:ListBucketMultipartUploads\"],\"Resource\":[\"arn:aws:s3:::" + bucketName + "\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:DeleteObject\",\"s3:GetObject\",\"s3:ListMultipartUploadParts\",\"s3:PutObject\",\"s3:AbortMultipartUpload\"],\"Resource\":[\"arn:aws:s3:::" + bucketName + "/*\"]}]}";
+            minioConfig.getMinioClient().setBucketPolicy(SetBucketPolicyArgs.builder().bucket(bucketName).config(read_write).build());
         }
         //更换文件名称
         String originalFilename = multipartFile.getOriginalFilename();
