@@ -1,4 +1,4 @@
-package com.fu.demo.util;
+package com.fu.demo.fastdfs;
 
 import com.fu.demo.entity.Err;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
@@ -26,6 +26,7 @@ public class FastDFSUtils {
         try {
             filePath = fastFileStorageClient.uploadFile(file.getInputStream(), file.getSize(), FilenameUtils.getExtension(file.getOriginalFilename()), null).getFullPath();
         }catch (Exception e){
+            log.error("上传失败：",e);
             throw new Err("上传失败："+e.getMessage());
         }
         return filePath;

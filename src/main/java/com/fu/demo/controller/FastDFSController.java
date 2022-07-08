@@ -1,13 +1,12 @@
 package com.fu.demo.controller;
 
-import com.fu.demo.util.FastDFSUtils;
+import com.fu.demo.fastdfs.FastDFSUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 
 @RestController
 public class FastDFSController {
@@ -18,8 +17,6 @@ public class FastDFSController {
     /**
      * fastdfs文件上传
      * @param file 文件
-     * @return
-     * @throws IOException
      */
     @PostMapping("fileUpload")
     public String upload(@RequestParam(name = "file") MultipartFile file){
@@ -29,7 +26,6 @@ public class FastDFSController {
     /**
      * 文件删除
      * @param filePath fastdfs文件相对路径
-     * @return
      */
     @PostMapping("fileDelete")
     public Boolean download(@RequestParam String filePath){
