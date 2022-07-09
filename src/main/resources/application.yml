@@ -48,11 +48,11 @@ spring:
     mysql1:
       url: jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
       # 初始连接数
-      initial-size: 10
+      initial-size: 1
       # 最小连接池数量
-      min-idle: 10
+      min-idle: 1
       # 最大连接池数量
-      max-active: 100
+      max-active: 20
       # 配置获取连接等待超时的时间
       max-wait: 1
       # 打开PSCache，并且指定每个连接上PSCache的大小
@@ -69,15 +69,16 @@ spring:
       testOnBorrow: false
       testOnReturn: false
       keepAlive: true
+      asyncInit: true
 
     mysql2:
       url: jdbc:mysql://192.168.18.253:3306/demo?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
       # 初始连接数
-      initial-size: 10
+      initial-size: 1
       # 最小连接池数量
-      min-idle: 10
+      min-idle: 1
       # 最大连接池数量
-      max-active: 100
+      max-active: 20
       # 配置获取连接等待超时的时间
       max-wait: 1
       # 打开PSCache，并且指定每个连接上PSCache的大小
@@ -94,6 +95,7 @@ spring:
       testOnBorrow: false
       testOnReturn: false
       keepAlive: true
+      asyncInit: true
     #监控信息配置
     monitor:
       username: root
