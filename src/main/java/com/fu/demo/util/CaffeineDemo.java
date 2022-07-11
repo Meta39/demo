@@ -18,7 +18,7 @@ public class CaffeineDemo {
     public static void main(String[] args) throws InterruptedException {
         //自动加载元素到缓存当中
         LoadingCache<Object, Object> cache = Caffeine.newBuilder()
-                .maximumSize(10_000)
+                .maximumSize(10_000)//最大内存大小，等价于10000
 //                .expireAfterAccess(3, TimeUnit.SECONDS)//超过时间就驱逐
                 .expireAfterWrite(3, TimeUnit.SECONDS)//写入到内存多久以后过期（和上面这个各选一个就行了，官方推荐这个）
                 .build(k -> null);//我直接返回null了，不想构建，这里应为对应的一个k -> createExpensiveGraph(key)方法

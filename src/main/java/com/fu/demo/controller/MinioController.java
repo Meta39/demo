@@ -1,6 +1,6 @@
 package com.fu.demo.controller;
 
-import com.fu.demo.minio.MinioUtil;
+import com.fu.demo.minio.MinioTemplate;
 import io.minio.errors.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,7 +14,7 @@ import java.security.NoSuchAlgorithmException;
 @RequestMapping("minio")
 public class MinioController {
     @Resource
-    private MinioUtil minioUtil;
+    private MinioTemplate minioTemplate;
 
     /**
      * 文件上传
@@ -22,7 +22,7 @@ public class MinioController {
      */
     @PostMapping("upload")
     public String upload(@RequestParam("file") MultipartFile file) throws InvalidBucketNameException, InsufficientDataException, IOException, NoSuchAlgorithmException, InvalidPortException, InvalidKeyException, InvalidEndpointException, XmlParserException, InternalException, RegionConflictException, ErrorResponseException, InvalidResponseException, ServerException {
-        return minioUtil.upload(file);
+        return minioTemplate.upload(file);
     }
 
     /**
@@ -32,6 +32,6 @@ public class MinioController {
      */
     @DeleteMapping("delete")
     public void delete(@RequestParam("bucketName") String bucketName,@RequestParam("fileName") String fileName) throws InvalidBucketNameException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidPortException, InvalidKeyException, InvalidEndpointException, InvalidResponseException, XmlParserException, InternalException, ServerException {
-        minioUtil.delete(bucketName, fileName);
+        minioTemplate.delete(bucketName, fileName);
     }
 }

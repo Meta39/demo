@@ -2,10 +2,11 @@ package com.fu.demo.minio;
 
 import io.minio.*;
 import io.minio.errors.*;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -13,17 +14,30 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
-@Component
-public class MinioUtil {
-    @Resource
-    MinioConfig minioConfig;
+@Configuration
+public class MinioTemplate {
+    @Value("${minio.endpoint}")
+    private String endpoint;//url
+    @Value("${minio.port}")
+    private int port;//端口号
+    @Value("${minio.secure}")
+    private boolean secure;//https?true:false
+    @Value("${minio.accessKey}")
+    private String accessKey;//账号
+    @Value("${minio.secretKey}")
+    private String secretKey;//密码
+
+    @Bean
+    public MinioClient getMinioClient(){
+        return MinioClient.builder().endpoint(endpoint, port, secure).credentials(accessKey, secretKey).build();
+    }
 
     /**
      * 文件上传
      *
      * @param multipartFile 文件
      */
-    public String upload(MultipartFile multipartFile) throws InvalidBucketNameException, InsufficientDataException, IOException, NoSuchAlgorithmException, InvalidPortException, InvalidKeyException, InvalidEndpointException, XmlParserException, InternalException, RegionConflictException, ErrorResponseException, InvalidResponseException, ServerException {
+    public String upload(MultipartFile multipartFile) throws InvalidBucketNameException, InsufficientDataException, IOException, NoSuchAlgorithmException, InvalidKeyException, XmlParserException, InternalException, RegionConflictException, ErrorResponseException, InvalidResponseException, ServerException {
         PutObjectOptions putObjectOptions = new PutObjectOptions(multipartFile.getSize(), PutObjectOptions.MIN_MULTIPART_SIZE);
         putObjectOptions.setContentType(multipartFile.getContentType());
         DateTimeFormatter yyyy = DateTimeFormatter.ofPattern("yyyy");
@@ -32,18 +46,18 @@ public class MinioUtil {
         LocalDate localDate = LocalDate.now();//获取当前时间
         String bucketName = localDate.format(yyyy);//以年为存储桶
         String path = localDate.format(MM) + "/" + localDate.format(dd) + "/";//在年存储桶里面创建月日文件夹
-        boolean bucketExists = minioConfig.getMinioClient().bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
+        boolean bucketExists = getMinioClient().bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
         if (!bucketExists) {//判断存储桶yyyy是否存在，不存在则创建
-            minioConfig.getMinioClient().makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
+            getMinioClient().makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
             //设置读写权限
             String read_write = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucket\",\"s3:ListBucketMultipartUploads\"],\"Resource\":[\"arn:aws:s3:::" + bucketName + "\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:DeleteObject\",\"s3:GetObject\",\"s3:ListMultipartUploadParts\",\"s3:PutObject\",\"s3:AbortMultipartUpload\"],\"Resource\":[\"arn:aws:s3:::" + bucketName + "/*\"]}]}";
-            minioConfig.getMinioClient().setBucketPolicy(SetBucketPolicyArgs.builder().bucket(bucketName).config(read_write).build());
+            getMinioClient().setBucketPolicy(SetBucketPolicyArgs.builder().bucket(bucketName).config(read_write).build());
         }
         //更换文件名称
         String originalFilename = multipartFile.getOriginalFilename();
         assert originalFilename != null;
         String fileName = path + UUID.randomUUID().toString().replaceAll("-", "") + originalFilename.substring(originalFilename.lastIndexOf("."));
-        minioConfig.getMinioClient().putObject(PutObjectArgs.builder().bucket(bucketName).object(fileName).stream(
+        getMinioClient().putObject(PutObjectArgs.builder().bucket(bucketName).object(fileName).stream(
                         multipartFile.getInputStream(), multipartFile.getSize(), -1)
                 .contentType(multipartFile.getContentType())
                 .build());
@@ -57,6 +71,6 @@ public class MinioUtil {
      * @param fileName   文件名称
      */
     public void delete(String bucketName, String fileName) throws InvalidPortException, InvalidEndpointException, InvalidBucketNameException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException, ServerException {
-        minioConfig.getMinioClient().removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(fileName).build());
+        getMinioClient().removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(fileName).build());
     }
 }
