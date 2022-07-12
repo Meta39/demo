@@ -43,7 +43,7 @@ public class RSAUtil {
         // 得到私钥字符串
         String privateKeyString = Base64.getEncoder().encodeToString(privateKey.getEncoded());
         // 将公钥和私钥保存到Map
-        Map map = new HashMap();
+        Map map = new HashMap(2);
         map.put("publicKey",publicKeyString);
         map.put("privateKey",privateKeyString);
         //0表示公钥

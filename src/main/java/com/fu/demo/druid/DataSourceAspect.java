@@ -38,20 +38,25 @@ public class DataSourceAspect {
      * 轮询mysql数据库
      */
     public void robin() {
-        if (!redisTemplate.hasKey(INDEX)) {//如果key不存在就创建key,并设置下标初始值为0
+        //如果key不存在就创建key,并设置下标初始值为0
+        if (!redisTemplate.hasKey(INDEX)) {
             redisTemplate.opsForValue().set(INDEX, 0,OVERTIME, TimeUnit.SECONDS);
         }
-        int getIndex = (int) redisTemplate.opsForValue().get(INDEX);//有下标则直接获取
+        //有下标则直接获取
+        int getIndex = (int) redisTemplate.opsForValue().get(INDEX);
         if (!redisTemplate.hasKey(DATA_SOURCE_LIST)) {
             redisTemplate.opsForList().rightPushAll(DATA_SOURCE_LIST, "mysql1", "mysql2");
             redisTemplate.expire(DATA_SOURCE_LIST,OVERTIME, TimeUnit.SECONDS);
         }else {
             redisTemplate.expire(DATA_SOURCE_LIST,OVERTIME, TimeUnit.SECONDS);
         }
-        if (getIndex >= redisTemplate.opsForList().size(DATA_SOURCE_LIST)) {//超过list集合的值就重新赋值（轮询）
+        //超过list集合的值就重新赋值（轮询）
+        if (getIndex >= redisTemplate.opsForList().size(DATA_SOURCE_LIST)) {
             getIndex = 0;
         }
+        //设置当前连接的数据库名称
         redisTemplate.opsForValue().set(INDEX_DATA_SOURCE, redisTemplate.opsForList().index(DATA_SOURCE_LIST, getIndex),OVERTIME, TimeUnit.SECONDS);
-        redisTemplate.opsForValue().set(INDEX, ++getIndex,OVERTIME, TimeUnit.SECONDS);//利用redis单线程的特性存放全局index下标
+        //利用redis单线程的特性存放全局index下标
+        redisTemplate.opsForValue().set(INDEX, ++getIndex,OVERTIME, TimeUnit.SECONDS);
     }
 }

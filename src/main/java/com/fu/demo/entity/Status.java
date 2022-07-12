@@ -1,5 +1,8 @@
 package com.fu.demo.entity;
 
+/**
+ * 状态码枚举类
+ */
 public enum Status {
     FAIL(5000,"失败"),
     NULL_POINTER_EXCEPTION(5001,"空指针异常！"),

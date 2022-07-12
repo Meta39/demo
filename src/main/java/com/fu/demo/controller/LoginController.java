@@ -7,7 +7,6 @@ import com.fu.demo.util.RSAUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,7 +45,6 @@ public class LoginController {
      * 用户不在用户输入框的时候校验用户ID是否存在
      *
      * @param userId 用户ID
-     * @return
      */
     @GetMapping("checkUserId")
     public User checkUserIdOrUserName(@RequestParam Long userId) {
@@ -69,8 +67,6 @@ public class LoginController {
      * @param password  用户输入的密码
      * @param salt      返回给前端的UUID盐
      * @param publicKey 返回给前端的RSA公钥
-     * @return
-     * @throws Exception
      */
     @IgnoreResAnnotate
     @GetMapping("front")
@@ -84,7 +80,6 @@ public class LoginController {
      *
      * @param userId   用户ID
      * @param password （初始密码+saltMD5加密）+RSA公钥加密后的密码
-     * @return
      */
     @PostMapping("login")
     public TokenInfo login(@RequestParam Long userId, @RequestParam String password, @RequestParam String vCode) {
@@ -115,7 +110,6 @@ public class LoginController {
      * 登出
      *
      * @param token
-     * @return
      */
     @PostMapping("logout")
     public String logout(@RequestParam String token) {

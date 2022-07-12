@@ -2,6 +2,9 @@ package com.fu.demo.entity;
 
 import lombok.*;
 
+/**
+ * 自定义异常类
+ */
 @Getter
 @Setter
 @NoArgsConstructor

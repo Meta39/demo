@@ -60,7 +60,7 @@ public class DruidConfig {
     @Bean(name = "dynamicDataSource")
     @Primary
     public DynamicDataSource dataSource() {
-        Map<Object, Object> targetDataSources = new HashMap<>();
+        Map<Object, Object> targetDataSources = new HashMap<>(2);
         targetDataSources.put("mysql1", mysql1DataSource());
         targetDataSources.put("mysql2", mysql2DataSource());
         return new DynamicDataSource(mysql1DataSource(), targetDataSources);

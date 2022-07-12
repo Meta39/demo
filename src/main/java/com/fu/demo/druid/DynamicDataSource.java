@@ -20,7 +20,6 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 
     @Override
     protected Object determineCurrentLookupKey() {
-//        DynamicDataSourceContextHolder.getDateSourceType();
         return redisTemplate.opsForValue().get(INDEX_DATA_SOURCE);
     }
 }

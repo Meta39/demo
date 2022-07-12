@@ -18,19 +18,26 @@ public class CaffeineDemo {
     public static void main(String[] args) throws InterruptedException {
         //自动加载元素到缓存当中
         LoadingCache<Object, Object> cache = Caffeine.newBuilder()
-                .maximumSize(10_000)//最大内存大小，等价于10000
-//                .expireAfterAccess(3, TimeUnit.SECONDS)//超过时间就驱逐
-                .expireAfterWrite(3, TimeUnit.SECONDS)//写入到内存多久以后过期（和上面这个各选一个就行了，官方推荐这个）
-                .build(k -> null);//我直接返回null了，不想构建，这里应为对应的一个k -> createExpensiveGraph(key)方法
-        cache.put("name", "Meta");//添加或者更新一个缓存元素
+                //最大内存大小，等价于10000
+                .maximumSize(10_000)
+                //写入到内存多久以后过期
+                .expireAfterWrite(3, TimeUnit.SECONDS)
+                //我直接返回null了，不想构建，这里应为对应的一个k -> createExpensiveGraph(key)方法
+                .build(k -> null);
+        //添加或者更新一个缓存元素
+        cache.put("name", "Meta");
         cache.put("name2", "Meta39");
         Thread.sleep(2000);
-        log.info("{}",cache.getIfPresent("name"));//查找一个缓存元素， 没有查找到的时候返回null
-        log.info("name，{}", cache.get("name"));//查找缓存，如果缓存不存在则生成缓存元素,  如果无法生成则返回null（比getIfPresent多了一步）
+        //查找一个缓存元素， 没有查找到的时候返回null
+        log.info("{}",cache.getIfPresent("name"));
+        //查找缓存，如果缓存不存在则生成缓存元素,  如果无法生成则返回null（比getIfPresent多了一步）
+        log.info("name，{}", cache.get("name"));
         log.info("name2，{}", cache.get("name2"));
-        cache.invalidate("name");//移除，不管时间到没到都会移除。也可以用监听器去监听移除的内容
+        //移除，不管时间到没到都会移除。也可以用监听器去监听移除的内容
+        cache.invalidate("name");
         log.info("name已被移除，{}", cache.get("name"));
         log.info("name2未被移除，{}", cache.get("name2"));
-        cache.invalidateAll();// 移除所有key
+        // 移除所有key
+        cache.invalidateAll();
     }
 }
