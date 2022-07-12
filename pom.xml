@@ -155,6 +155,17 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <!--源生maven-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <!--不打包的内容-->
+                        <exclude>com/fu/demo/JApiDocs.class</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
