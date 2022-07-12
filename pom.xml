@@ -134,14 +134,14 @@
                 <configuration>
                     <!--只在开发过程中使用，但不打包的依赖-->
                     <excludes>
-                        <exclude>
-                            <groupId>org.springframework.boot</groupId>
-                            <artifactId>spring-boot-starter-test</artifactId>
-                        </exclude>
                         <!--spring官方排除的依赖项-->
                         <exclude>
                             <groupId>org.springframework.boot</groupId>
                             <artifactId>spring-boot-configuration-processor</artifactId>
+                        </exclude>
+                        <exclude>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-starter-test</artifactId>
                         </exclude>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
