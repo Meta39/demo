@@ -1,6 +1,5 @@
 package com.fu.demo.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fu.demo.entity.Menu;
 import com.fu.demo.mapper.MenuMapper;
 import org.springframework.data.redis.core.RedisTemplate;

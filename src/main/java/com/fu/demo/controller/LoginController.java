@@ -4,7 +4,7 @@ import com.fu.demo.aop.IgnoreResAnnotate;
 import com.fu.demo.entity.*;
 import com.fu.demo.mapper.LoginMapper;
 import com.fu.demo.util.RSAUtil;
-import org.apache.commons.lang.StringUtils;
+import com.fu.demo.util.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -4,7 +4,7 @@ import com.fu.demo.config.NotCheckConfig;
 import com.fu.demo.entity.Status;
 import com.fu.demo.entity.Err;
 import com.fu.demo.entity.TokenInfo;
-import org.apache.commons.lang.StringUtils;
+import com.fu.demo.util.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;

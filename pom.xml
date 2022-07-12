@@ -18,6 +18,19 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
     <dependencies>
+        <!--热部署-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <!-- JApiDocs离线接口文档 -->
+        <dependency>
+            <groupId>io.github.yedaxia</groupId>
+            <artifactId>japidocs</artifactId>
+            <version>1.4.4</version>
+        </dependency>
         <!-- lombok插件依赖 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -45,12 +58,6 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.1.4</version>
         </dependency>
-        <!-- StringUtils工具类 -->
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.5</version>
-        </dependency>
         <!-- 参数校验框架validation -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -77,12 +84,6 @@
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
             <version>2.9.3</version>
-        </dependency>
-        <!-- JApiDocs离线接口文档 -->
-        <dependency>
-            <groupId>io.github.yedaxia</groupId>
-            <artifactId>japidocs</artifactId>
-            <version>1.4.4</version>
         </dependency>
         <!-- 二维码 -->
         <dependency>
@@ -137,10 +138,24 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <!--只在开发过程中使用，但不打包的依赖-->
                     <excludes>
                         <exclude>
                             <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-starter-test</artifactId>
+                        </exclude>
+                        <!--spring官方排除的依赖项-->
+                        <exclude>
+                            <groupId>org.springframework.boot</groupId>
                             <artifactId>spring-boot-configuration-processor</artifactId>
+                        </exclude>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                        <exclude>
+                            <groupId>io.github.yedaxia</groupId>
+                            <artifactId>japidocs</artifactId>
                         </exclude>
                     </excludes>
                 </configuration>
