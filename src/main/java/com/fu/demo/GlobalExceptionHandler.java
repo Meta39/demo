@@ -65,7 +65,7 @@ public class GlobalExceptionHandler{
      */
     @ExceptionHandler(MyBatisSystemException.class)
     public Res MyBatisSystemException(MyBatisSystemException e) {
-        log.error("数据库异常（有可能是连接不上数据库）",e);
+        log.error("数据库异常（有可能是连接不上数据库，请再试一次访问，以启动备用数据库！）",e);
         return Res.err(Status.MYBATIS_SYSTEM_EXCEPTION.getStatus(), Status.MYBATIS_SYSTEM_EXCEPTION.getError(),e.getMessage());
     }
 
