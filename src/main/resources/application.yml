@@ -19,6 +19,17 @@ server:
   port: 81
 
 spring:
+  #mail
+  mail:
+    host: smtp.qq.com
+    port: 25
+    username: 5399553@qq.com
+    password: peryyrjvwdxshbgjj
+    properties:
+      timeout: 6000
+      connection-timeout: 6000
+      write-timeout: 6000
+  #jackson
   jackson:
     date-format: yyyy-MM-dd hh:mm:ss
     time-zone: GMT+8
