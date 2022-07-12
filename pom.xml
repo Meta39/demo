@@ -18,17 +18,17 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
     <dependencies>
-        <!-- JApiDocs离线接口文档 -->
-        <dependency>
-            <groupId>io.github.yedaxia</groupId>
-            <artifactId>japidocs</artifactId>
-            <version>1.4.4</version>
-        </dependency>
         <!-- lombok插件依赖 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <!-- JApiDocs离线接口文档 -->
+        <dependency>
+            <groupId>io.github.yedaxia</groupId>
+            <artifactId>japidocs</artifactId>
+            <version>1.4.4</version>
         </dependency>
         <!-- spring web -->
         <dependency>
@@ -127,6 +127,7 @@
     </dependencies>
 
     <build>
+        <finalName>Demo</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -155,7 +156,6 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>Demo</finalName>
     </build>
 
 </project>
