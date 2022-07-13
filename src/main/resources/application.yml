@@ -14,6 +14,7 @@ pass-uri:
     - fileDelete
     - roundRobin
     - user/select
+    - user/selectByAsync
 
 server:
   port: 81
