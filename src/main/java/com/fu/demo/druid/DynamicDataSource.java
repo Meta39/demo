@@ -8,7 +8,6 @@ import javax.sql.DataSource;
 import java.util.Map;
 
 public class DynamicDataSource extends AbstractRoutingDataSource {
-    private static final String INDEX_DATA_SOURCE = "indexDataSource";
     @Resource
     private RedisTemplate<String,Object> redisTemplate;
 
@@ -20,6 +19,6 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 
     @Override
     protected Object determineCurrentLookupKey() {
-        return redisTemplate.opsForValue().get(INDEX_DATA_SOURCE);
+        return DataSourceAspect.DATA_SOURCE_LIST.get((int) redisTemplate.opsForValue().get(DataSourceAspect.INDEX));
     }
 }

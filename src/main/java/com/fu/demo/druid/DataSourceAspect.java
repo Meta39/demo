@@ -9,16 +9,18 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 @Aspect
 @Order(1)
 @Component
 public class DataSourceAspect {
-    private static final int OVERTIME = 30;
-    private static final String INDEX = "index";
-    private static final String DATA_SOURCE_LIST = "dataSourceList";
-    private static final String INDEX_DATA_SOURCE = "indexDataSource";
+    public static final String INDEX = "index";
+    public static final List<String> DATA_SOURCE_LIST = new ArrayList<String>(2) {{
+        this.add("mysql1");
+        this.add("mysql2");
+    }};
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
@@ -38,25 +40,18 @@ public class DataSourceAspect {
      * 轮询mysql数据库
      */
     public void robin() {
-        //如果key不存在就创建key,并设置下标初始值为0
+        //没有key就创建key
         if (!redisTemplate.hasKey(INDEX)) {
-            redisTemplate.opsForValue().set(INDEX, 0,OVERTIME, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set(INDEX, 0);
+        } else {
+            //有key就直接获取
+            int getIndex = (int) redisTemplate.opsForValue().get(INDEX);
+            //超过list集合的长度减一就重新赋值（轮询），利用redis单线程的特性存放全局index下标
+            if (getIndex >= DATA_SOURCE_LIST.size() - 1) {
+                redisTemplate.opsForValue().set(INDEX, 0);
+            } else {
+                redisTemplate.opsForValue().set(INDEX, ++getIndex);
+            }
         }
-        //有下标则直接获取
-        int getIndex = (int) redisTemplate.opsForValue().get(INDEX);
-        if (!redisTemplate.hasKey(DATA_SOURCE_LIST)) {
-            redisTemplate.opsForList().rightPushAll(DATA_SOURCE_LIST, "mysql1", "mysql2");
-            redisTemplate.expire(DATA_SOURCE_LIST,OVERTIME, TimeUnit.SECONDS);
-        }else {
-            redisTemplate.expire(DATA_SOURCE_LIST,OVERTIME, TimeUnit.SECONDS);
-        }
-        //超过list集合的值就重新赋值（轮询）
-        if (getIndex >= redisTemplate.opsForList().size(DATA_SOURCE_LIST)) {
-            getIndex = 0;
-        }
-        //设置当前连接的数据库名称
-        redisTemplate.opsForValue().set(INDEX_DATA_SOURCE, redisTemplate.opsForList().index(DATA_SOURCE_LIST, getIndex),OVERTIME, TimeUnit.SECONDS);
-        //利用redis单线程的特性存放全局index下标
-        redisTemplate.opsForValue().set(INDEX, ++getIndex,OVERTIME, TimeUnit.SECONDS);
     }
 }
