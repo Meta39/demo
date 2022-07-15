@@ -139,3 +139,12 @@ fdfs:
   tracker-list:            #TrackerList参数,支持多个
     - 192.168.10.111:22122
     - 192.168.10.112:22122
+
+xxl:
+  job:
+    admin:
+      addresses: http://127.0.0.1:84/xxl-job-admin
+    executor:
+      appname: xxl-job-invoice-api
+      logretentiondays: 30
+      port: 9999
