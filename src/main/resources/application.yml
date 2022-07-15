@@ -15,6 +15,7 @@ pass-uri:
     - roundRobin
     - user/select
     - user/selectByAsync
+    - wordToPdf
 
 server:
   port: 81
