@@ -135,10 +135,19 @@
             <artifactId>xxl-job-core</artifactId>
             <version>2.3.0</version>
         </dependency>
+        <!--反编译aspose-words-->
         <dependency>
-            <groupId>fr.opensagres.xdocreport</groupId>
-            <artifactId>xdocreport</artifactId>
-            <version>2.0.2</version>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.27.0-GA</version>
+        </dependency>
+        <!--DOC, DOCX, OOXML, RTF HTML, OpenDocument, PDF, EPUB, XPS, SWF 相互转换-->
+        <dependency>
+            <groupId>com.aspose</groupId>
+            <artifactId>aspose-words</artifactId>
+            <version>21.1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/aspose-words-21.1.0-jdk17-d.jar</systemPath>
         </dependency>
     </dependencies>
 
@@ -149,6 +158,8 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <!-- 引入系统scope级别的jar -->
+                    <includeSystemScope>true</includeSystemScope>
                     <!--只在开发过程中使用，但不打包的依赖-->
                     <excludes>
                         <!--spring官方排除的依赖项-->
