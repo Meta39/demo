@@ -11,6 +11,8 @@ public enum Status {
     BIND_EXCEPTION(5004,"参数校验异常"),
     MYBATIS_SYSTEM_EXCEPTION(5005,"数据库异常（有可能是连接不上数据库）"),
     ILLEGAL_REQUEST(5006,"非法请求！"),
+    FILE_IS_EMPTY(5007,"文件不能为空"),
+    FILE_UNKNOWN_TYPE(5008,"此类型不支持转换"),
     ;
 
     private int status;

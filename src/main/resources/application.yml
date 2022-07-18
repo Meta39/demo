@@ -15,7 +15,8 @@ pass-uri:
     - roundRobin
     - user/select
     - user/selectByAsync
-    - wordToPdf
+    - exchangeFile/upload
+    - exchangeFile/delete
 
 server:
   port: 81
