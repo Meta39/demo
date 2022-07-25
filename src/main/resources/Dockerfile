@@ -1,5 +1,5 @@
 #基础镜像使用
-FROM java:8
+FROM openjdk:8-jre-alpine
 #作者
 MAINTAINER Meta39
 #指定临时文件目录为tmp。在主机/var/lib/docker目录下创建了一个临时文件并链接到容器的/tmp
