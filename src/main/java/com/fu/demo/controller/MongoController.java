@@ -22,7 +22,7 @@ public class MongoController {
      * 新增数据
      * @param apple 对象
      */
-    @PutMapping("insert")
+    @PostMapping ("insert")
     public void insert(@RequestBody @Valid Apple apple){
         mongoTemplate.insert(apple);
     }
@@ -64,7 +64,7 @@ public class MongoController {
      * 通过id删除一条数据
      * @param id id
      */
-    @DeleteMapping("delete")
+    @PostMapping("delete")
     public void delete(@RequestParam Long id){
         Query query=new Query(Criteria.where("_id").is(id));
         mongoTemplate.remove(query,Apple.class);

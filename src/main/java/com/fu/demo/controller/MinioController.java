@@ -30,7 +30,7 @@ public class MinioController {
      * @param bucketName 存储桶名称
      * @param fileName 文件名称
      */
-    @DeleteMapping("delete")
+    @PostMapping("delete")
     public void delete(@RequestParam("bucketName") String bucketName,@RequestParam("fileName") String fileName) throws InvalidBucketNameException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidPortException, InvalidKeyException, InvalidEndpointException, InvalidResponseException, XmlParserException, InternalException, ServerException {
         minioTemplate.delete(bucketName, fileName);
     }

@@ -29,7 +29,7 @@ public class ExchangeFileController {
      * 删除文件
      * @param filePath 文件URI
      */
-    @DeleteMapping("delete")
+    @PostMapping("delete")
     public void delete(@RequestParam("filePath") String filePath){
         File file = new File(AsposeWordsExchangeFileUtil.tempPath+AsposeWordsExchangeFileUtil.FILE_DIR+filePath);
         if (file.exists()){
