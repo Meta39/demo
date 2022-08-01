@@ -17,11 +17,25 @@ pass-uri:
     - user/selectByAsync
     - exchangeFile/upload
     - exchangeFile/delete
+    - mongo/insert
+    - mongo/find
+    - mongo/findById
+    - mongo/update
+    - mongo/delete
 
 server:
   port: 81
 
 spring:
+  data:
+    #mongo:4.0.6
+    mongodb:
+      host: 192.168.18.111
+      port: 27017
+      username: admin
+      password: admin
+      database: demo
+      authentication-database: admin
   #mail
   mail:
     host: smtp.qq.com
