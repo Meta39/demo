@@ -138,6 +138,7 @@ logging:
   level:
     #生产环境可以改为info
     com.fu.demo.mapper: debug
+    org.springframework.data.mongodb.core: debug
 
 minio:
   endpoint: http://192.168.18.253
