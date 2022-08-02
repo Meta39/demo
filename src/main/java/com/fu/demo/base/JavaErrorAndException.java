@@ -24,7 +24,6 @@ public class JavaErrorAndException {
     /**
      * 运行时异常，编译通过，在需要的使用的方法内throw new JavaRuntimeException();
      */
-    @Test
     public void throwJavaRuntimeException(){
         //一般结合加上了@RestControllerAdvice注解的类使用@ExceptionHandler(value =JavaRuntimeException.class)
         JavaRuntimeException javaRuntimeException = new JavaRuntimeException();
