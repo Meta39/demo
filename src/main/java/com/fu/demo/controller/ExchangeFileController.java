@@ -21,7 +21,7 @@ public class ExchangeFileController {
      * @throws Exception
      */
     @PostMapping("upload")
-    public String upload(@RequestParam("file") MultipartFile file,String exchangeType) throws Exception {
+    public String upload(@RequestParam("file") MultipartFile file,@RequestParam String exchangeType) throws Exception {
         return AsposeWordsExchangeFileUtil.ExchangeFile(file,exchangeType);
     }
 
