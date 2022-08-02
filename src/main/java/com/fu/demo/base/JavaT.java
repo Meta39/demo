@@ -1,4 +1,4 @@
-package com.fu.demo.util;
+package com.fu.demo.base;
 
 import com.fu.demo.mongo.Apple;
 import lombok.AllArgsConstructor;
