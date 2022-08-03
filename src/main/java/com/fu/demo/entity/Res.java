@@ -4,11 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Res<T> {
+public class Res<T> implements Serializable {
+
+    private static final long serialVersionUID = 531075058790517459L;
+
     private int status;//状态码
     private String error;//错误信息
     private String message;//信息
